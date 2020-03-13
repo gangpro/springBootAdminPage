@@ -36,3 +36,7 @@ out/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+### User Customization ###
+memo.txt
+shortCut.txt
