@@ -4,7 +4,7 @@ import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -76,7 +76,46 @@ public class UserRepositoryTest extends StudyApplicationTests {
         });
     }
 
+    @Test
+    @Transactional  // 데이터 삭제 후 롤백 해준다. // 즉 테스트용으로 확인만 할때  // @Transactional 주석처리하면 테스트 코드가 실행되면서 데이터 삭제됨.
     public void delete(){
 
+        // Optional 은 있을 수도 있고 없을 수도 있다.
+        Optional<User> user = userRepository.findById(1L);   // 1건 처리  // id가 Long 타입이라 6L 이라고 해야함.
+
+        // 있다면 삭제
+        user.ifPresent(selectUser -> {
+            userRepository.delete(selectUser);
+
+        });
+
+        // 삭제 됐는지 확인하기 위해 select 해보기
+        Optional<User> deleteUser = userRepository.findById(1L);
+
+        if(deleteUser.isPresent()){
+            System.out.println("데이터 존재 : " + deleteUser.get());
+        } else {
+            System.out.println("데이터 삭제 데이터 없음");
+        }
     }
+
+//    @Test
+//    public void deleteOther(){
+//
+//        // Optional 은 있을 수도 있고 없을 수도 있다.
+//        Optional<User> user = userRepository.findById(7L);   // 1건 처리  // id가 Long 타입이라 7L 이라고 해야함.
+//
+//        Assert.assertTrue(user.isPresent());    // true // 7L 이 있다면
+//
+//        // 있다면 삭제
+//        user.ifPresent(selectUser -> {
+//            userRepository.delete(selectUser);
+//
+//        });
+//
+//        // 삭제 됐는지 확인하기 위해 select 해보기
+//        Optional<User> deleteUser = userRepository.findById(7L);
+//
+//        Assert.assertFalse(deleteUser.isPresent()); // false
+//    }
 }
