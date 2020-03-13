@@ -2,12 +2,14 @@ package com.example.study.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor // 모든 매개변수를 갖는 생성자 생성
+@NoArgsConstructor  // 기본생성자 생성
 @Entity //= DB 의 테이블을 의미
 //@Table(name = "user")   // 스키마 테이블과 이름이 같다면 따로 명시 안해줘도 됨.
 public class User {
