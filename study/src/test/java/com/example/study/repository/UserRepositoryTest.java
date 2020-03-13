@@ -4,8 +4,10 @@ import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class UserRepositoryTest extends StudyApplicationTests {
 
@@ -30,9 +32,33 @@ public class UserRepositoryTest extends StudyApplicationTests {
         System.out.println("newUser : " + newUser);
     }
 
+    @Test
     public void read() {
 
+        // Optional 은 있을 수도 있고 없을 수도 있다.
+        Optional<User> user = userRepository.findById(6L);   // 1건 처리  // id가 Long 타입이라 6L 이라고 해야함.
+
+        // 있다면
+        user.ifPresent(selectUser -> {
+            System.out.println("user : " + selectUser);
+            System.out.println("email : " + selectUser.getEmail());
+        });
     }
+
+    // 매개변수를 받아서 처리 할 수도 있다.
+//    @Test
+//    public User read1(@RequestParam Long id) {
+
+//        // Optional 은 있을 수도 있고 없을 수도 있다.
+//        Optional<User> user = userRepository.findById(id);   // 1건 처리  // id가 Long 타입이라 6L 이라고 해야함.
+//
+//        // 있다면
+//        user.ifPresent(selectUser -> {
+//            System.out.println("user : " + selectUser);
+//            System.out.println("email : " + selectUser.getEmail());
+//        });
+//        return user.get();
+//    }
 
     public void update(){
 
