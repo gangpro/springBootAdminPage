@@ -60,8 +60,20 @@ public class UserRepositoryTest extends StudyApplicationTests {
 //        return user.get();
 //    }
 
+    @Test
     public void update(){
 
+        // Optional 은 있을 수도 있고 없을 수도 있다.
+        Optional<User> user = userRepository.findById(6L);   // 1건 처리  // id가 Long 타입이라 6L 이라고 해야함.
+
+        // 있다면
+        user.ifPresent(selectUser -> {
+            selectUser.setAccount("pppp");
+            selectUser.setUpdatedAt(LocalDateTime.now());
+            selectUser.setUpdatedBy("update method()");
+
+            userRepository.save(selectUser);    // JPA 가 selectUser 인지 user 인지가 중요한게 아니라 id 값을 찾아서 알아서 바꾼다.
+        });
     }
 
     public void delete(){
